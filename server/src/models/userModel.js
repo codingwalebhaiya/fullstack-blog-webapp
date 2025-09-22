@@ -35,10 +35,6 @@ const userSchema = new mongoose.Schema(
 );
 
 
-// Index for better query performance
-PostSchema.index({ author: 1, status: 1 });
-PostSchema.index({ slug: 1 });
-PostSchema.index({ status: 1, publishedAt: -1 });
 
 const userModel = mongoose.model("User", userSchema);
 export default userModel;
