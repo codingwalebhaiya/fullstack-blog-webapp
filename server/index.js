@@ -9,12 +9,10 @@ dbConnect();
 const app = express();
 const port = process.env.PORT || 4000;
 
-app.use('/api/v1/auth', authRouter)
+// middleware
+app.use(express.json())
+app.use("/api/v1/auth", authRouter);
 
 app.listen(port, () => {
   console.log(`server is running on port ${port}`);
 });
-
-
-
-
