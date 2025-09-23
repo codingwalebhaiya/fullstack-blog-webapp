@@ -22,14 +22,10 @@ const Register = async (req, res) => {
       });
     }
 
-    // hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
     const newUser = new userModel({
-      username:username.toLowerCase()  ,
+      username: username.toLowerCase(),
       email,
-      password: hashedPassword,
+      password, // password already hashed in userModel file using pre hook
       role,
     });
     await newUser.save();
@@ -57,16 +53,12 @@ const Login = async (req, res) => {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    // compare password
-    // const isMatch = await bcrypt.compare(password, user.password);
-    // if (!isMatch) {
-    //   return res.status(400).json({ message: "Invalid email or password" });
-    // }
+    // password already compare in userModel file using comparePassword method
 
     // generate token
     const payload = { id: user._id, email: user.email, role: user.role };
     const token = await generateToken(payload);
- 
+
     return res.status(200).json({
       message: "User logged in successfully",
       token,
@@ -75,7 +67,7 @@ const Login = async (req, res) => {
         email: user.email,
         username: user.username,
         role: user.role,
-      }
+      },
     });
   } catch (error) {
     return res.status(500).json({ message: "Server Error" });
