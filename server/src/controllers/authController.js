@@ -1,5 +1,4 @@
 import userModel from "../models/userModel.js";
-import bcrypt from "bcryptjs";
 import generateToken from "../utils/jwt.js";
 
 const Register = async (req, res) => {
@@ -24,7 +23,7 @@ const Register = async (req, res) => {
 
     const newUser = new userModel({
       username: username.toLowerCase(),
-      email,
+      email: email.toLowerCase(),
       password, // password already hashed in userModel file using pre hook
       role,
     });
@@ -40,19 +39,30 @@ const Register = async (req, res) => {
 
 const Login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { identifier, password } = req.body;
 
-    if (!email || !password) {
+    if (!identifier || !password) {
       return res.status(401).json({
-        message: "All fields are required",
+        message: "Please provide a username/email and a password",
       });
     }
 
-    const user = await userModel.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ message: "Invalid email or password" });
-    }
+    const lowerCaseIdentifier = identifier.toLowerCase();
 
+    const user = await userModel
+      .findOne({
+        $or: [
+          { username: lowerCaseIdentifier },
+          { email: lowerCaseIdentifier },
+        ],
+      })
+      .select("+password"); // Explicitly select the password for comparison
+
+      if (!user) {
+      return res.status(404).json({
+        message: "Invalid credentials",
+      });
+    }
     // password already compare in userModel file using comparePassword method
 
     // generate token
