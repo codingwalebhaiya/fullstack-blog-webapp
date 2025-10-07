@@ -13,14 +13,15 @@ const port = process.env.PORT || 4000;
 
 // middleware
 //parse JSON
-app.use(express.json())
+app.use(express.json());
 // If uploading form-data (image + text), also add:
-app.use(express.urlencoded({extended:true, limit:"16kb"}))
-app.use(express.static("public"))
-app.use("/api/v1/auth", authRouter);
+app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+//app.use(express.static("public"));
+app.use("/api/v1/auth", authRouter); 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/posts", postRouter);
 
 app.listen(port, () => {
   console.log(`server is running on port ${port}`);
 });
+  

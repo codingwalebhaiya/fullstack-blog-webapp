@@ -1,0 +1,106 @@
+[
+  {
+    "title": "Getting Started with Node.js",
+    "content": "Node.js is a JavaScript runtime built on Chrome's V8 engine. It helps developers build fast and scalable server-side applications. In this article, we’ll cover the basics of setting up a Node.js environment and writing your first app."
+  
+  },
+  {
+    "title": "10 React Performance Optimization Tips",
+    "content": "React is powerful but can get slow if not optimized. In this blog, we’ll explore memoization, React.lazy, code-splitting, and other techniques to improve performance.",
+    "excerpt": "Boost your React app’s performance with these 10 optimization tips.",
+    "slug": "react-performance-optimization-tips",
+    "tags": ["react", "performance", "frontend"],
+    "categories": ["Frontend", "Performance"],
+    "status": "published",
+    "featuredImage": "https://res.cloudinary.com/demo/image/upload/v1698982812/posts/react_perf.jpg",
+    "publishedAt": "2025-09-20T14:30:00Z",
+    "createdBy": "652f9a12b14e8c42e4a55d92"
+  },
+  {
+    "title": "Understanding MongoDB Indexing",
+    "content": "MongoDB indexes support efficient query execution. Without indexes, MongoDB must scan every document in a collection. Let’s dive into compound indexes, text search, and performance improvements.",
+    "excerpt": "A beginner-friendly guide to MongoDB indexing and query optimization.",
+    "slug": "mongodb-indexing-guide",
+    "tags": ["mongodb", "database", "nosql"],
+    "categories": ["Database", "Backend"],
+    "status": "draft",
+    "featuredImage": "https://res.cloudinary.com/demo/image/upload/v1698982812/posts/mongodb_indexing.jpg",
+    "publishedAt": null,
+    "createdBy": "652f9a12b14e8c42e4a55d93"
+  },
+  {
+    "title": "Mastering Tailwind CSS",
+    "content": "Tailwind CSS is a utility-first CSS framework that allows rapid UI development. Learn how to configure Tailwind, customize themes, and build beautiful responsive designs.",
+    "excerpt": "A complete guide to Tailwind CSS with examples and customization.",
+    "slug": "mastering-tailwind-css",
+    "tags": ["css", "tailwind", "frontend"],
+    "categories": ["Frontend", "Design"],
+    "status": "published",
+    "featuredImage": "https://res.cloudinary.com/demo/image/upload/v1698982812/posts/tailwind_css.jpg",
+    "publishedAt": "2025-09-22T09:45:00Z",
+    "createdBy": "652f9a12b14e8c42e4a55d94"
+  },
+  {
+    "title": "Top 5 Git Commands Every Developer Should Know",
+    "content": "Git is essential for version control. In this article, we’ll cover git clone, git commit, git push, git pull, and git checkout with practical use cases.",
+    "excerpt": "Essential Git commands for daily developer workflow.",
+    "slug": "top-5-git-commands",
+    "tags": ["git", "version-control", "developer-tools"],
+    "categories": ["DevOps", "Tools"],
+    "status": "published",
+    "featuredImage": "https://res.cloudinary.com/demo/image/upload/v1698982812/posts/git_commands.jpg",
+    "publishedAt": "2025-09-18T16:20:00Z",
+    "createdBy": "652f9a12b14e8c42e4a55d95"
+  },
+
+  {
+    "title": "Getting Started with Node.js",
+    "content": "Node.js is a JavaScript runtime built on Chrome's V8 engine. It helps developers build fast and scalable server-side applications. In this article, we’ll cover the basics of setting up a Node.js environment and writing your first app."
+  },
+  {
+    "title": "10 React Performance Optimization Tips",
+    "content": "React is powerful but can slow down with large apps. Learn how to improve performance with memoization, React.lazy, code-splitting, and best practices to optimize rendering and state management."
+  },
+  {
+    "title": "Understanding RESTful APIs",
+    "content": "REST APIs are the backbone of modern web applications. This article explains the key principles of REST architecture and shows you how to design and consume APIs effectively."
+  },
+  {
+    "title": "Mastering JavaScript Promises",
+    "content": "Promises simplify asynchronous programming in JavaScript. Here we’ll break down how promises work, chaining, error handling, and real-world use cases."
+  },
+  {
+    "title": "MongoDB Basics for Beginners",
+    "content": "MongoDB is a NoSQL database used widely in modern applications. Learn how to create databases, collections, and documents, and perform CRUD operations step by step."
+  },
+  {
+    "title": "Authentication with JWT in Node.js",
+    "content": "JSON Web Tokens (JWT) are a popular method for securing APIs. This article shows you how to implement JWT authentication in a Node.js and Express backend."
+  },
+  {
+    "title": "CSS Grid vs Flexbox: When to Use Which",
+    "content": "Both CSS Grid and Flexbox are powerful layout systems. Learn the differences, strengths, and use cases of each to build responsive designs efficiently."
+  },
+  {
+    "title": "A Beginner’s Guide to TypeScript",
+    "content": "TypeScript adds static typing to JavaScript, improving code quality and developer experience. Explore the basics of TypeScript, from types to interfaces and classes."
+  },
+  {
+    "title": "How to Deploy a MERN App",
+    "content": "Deploying a MERN (MongoDB, Express, React, Node.js) application can be tricky. This guide explains step-by-step how to deploy on platforms like Vercel, Render, and Heroku."
+  },
+  {
+    "title": "Building Responsive Websites with Tailwind CSS",
+    "content": "Tailwind CSS is a utility-first CSS framework. Learn how to use its classes to quickly build responsive and modern user interfaces without writing custom CSS."
+  },
+  {
+    "title": "GraphQL vs REST: Key Differences",
+    "content": "GraphQL offers a flexible approach to APIs compared to REST. This article highlights the pros and cons of each, with examples to help you decide which to use."
+  },
+  {
+    "title": "Understanding Microservices Architecture",
+    "content": "Microservices break applications into smaller, independent services. Learn the advantages, challenges, and best practices for building microservice-based systems."
+  }
+]
+
+

@@ -10,60 +10,35 @@ const postSchema = new mongoose.Schema(
     content: {
       type: String,
       required: true,
+      trim: true,
     },
-     excerpt: {
+    excerpt: {
       type: String,
       required: true,
-      maxlength: 200,
+      trim: true,
     },
+
     slug: {
       type: String,
       required: true,
       unique: true,
     },
+    postImageUrl: {
+      type: String,
+      required: true,
+    },
+    postImagePublicId: {
+      type: String,
+    },
 
-    author: {
+    userId: {
       type: mongoose.Types.ObjectId,
       ref: "User",
-      required:true
-    },
-
-    featuredImage: {
-      type: String,
-    },
-    tags: [{
-      type: String,
-      trim: true,
-    }],
-    categories: [{
-      type: String,
-      trim: true,
-    }],
-    status: {
-      type: String,
-      enum: ['draft', 'published'],
-      default: 'draft',
-    },
-    publishedAt: {
-      type: Date,
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: {
-      type: Date,
-      default: Date.now,
+      required: true,
     },
   },
   { timestamps: true }
 );
 
-
-// Index for better query performance
-postSchema.index({ author: 1, status: 1 });
-postSchema.index({ slug: 1 });
-postSchema.index({ status: 1, publishedAt: -1 });
-
-const postModel = mongoose.model("User", postSchema);
+const postModel = mongoose.model("Post", postSchema);
 export default postModel;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import useAuth from "../hooks/useAuth"
+import useAuth from "../hooks/useAuth";
 
 const Login = () => {
   const [formData, setFormData] = useState({ identifier: "", password: "" });
@@ -74,7 +74,6 @@ const Login = () => {
             </span>
           </p>
         </div>{" "}
-       
       </div>
     </div>
   );

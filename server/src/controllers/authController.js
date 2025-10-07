@@ -3,9 +3,9 @@ import generateToken from "../utils/jwt.js";
 
 const Register = async (req, res) => {
   try {
-    const { username, email, password, role } = req.body;
+    const { username, email, password } = req.body;
 
-    if (!username || !email || !password || !role) {
+    if (!username || !email || !password ) {
       return res.status(401).json({
         message: "All fields are required",
       });
@@ -25,7 +25,6 @@ const Register = async (req, res) => {
       username: username.toLowerCase(),
       email: email.toLowerCase(),
       password, // password already hashed in userModel file using pre hook
-      role,
     });
     await newUser.save();
 
@@ -58,7 +57,7 @@ const Login = async (req, res) => {
       })
       .select("+password"); // Explicitly select the password for comparison
 
-      if (!user) {
+    if (!user) {
       return res.status(404).json({
         message: "Invalid credentials",
       });

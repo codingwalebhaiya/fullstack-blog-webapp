@@ -7,10 +7,8 @@ const Register = () => {
     username: "",
     email: "",
     password: "",
-    role: "reader",
   });
   const { register, error, clearErrors, loading, navigate } = useAuth();
-
 
   const changeHandler = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -63,25 +61,6 @@ const Register = () => {
               value={formData.password}
               className="w-full p-2 border rounded"
             />
-
-            <div className="w-64 mx-auto mt-8">
-              <label
-                htmlFor="role-select"
-                className="block text-gray-700 text-sm font-bold mb-2"
-              >
-                Choose an role:
-              </label>
-              <select
-                id="role-select"
-                name="role"
-                value={formData.role}
-                onChange={changeHandler}
-                className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              >
-                <option value="reader">Reader</option>
-                <option value="author">Author</option>
-              </select>
-            </div>
 
             <button
               type="submit"
