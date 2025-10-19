@@ -1,10 +1,11 @@
-// middleware/authorizePostOwnership.js
+
 import postModel from "../models/postModel.js";
 
 const authorizePostOwnership = async (req, res, next) => {
   try {
     const postId = req.params.id || req.params.postId; // depends on route param name
     const post = await postModel.findById(postId);
+   // const post = await postModel.findById(postId).select(req.userId);
     if (!post) return res.status(404).json({ message: "Post not found" });
 
     // admin can do anything

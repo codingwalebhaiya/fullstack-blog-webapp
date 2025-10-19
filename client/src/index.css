@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* small utility for fade/scale transitions */
+.transition-fade {
+  transition: opacity .18s ease, transform .18s ease;
+}
+
+

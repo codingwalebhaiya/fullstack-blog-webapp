@@ -6,17 +6,18 @@ import { toast } from "react-toastify";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null );
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  console.log(user);
+  
+
   // keep axios Authorization header in sync with token
   useEffect(() => {
     if (token) {
-      //API.defaults.headers = API.defaults.headers || {};
-      // API.defaults.headers.Authorization = `Bearer ${token}`;
       localStorage.setItem("token", token);
     }
   }, [token]);
@@ -119,6 +120,8 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  
+
   // clear errors
   const clearErrors = () => setError(null);
 
@@ -132,6 +135,9 @@ export const AuthProvider = ({ children }) => {
     logout,
     clearErrors,
     navigate,
+    isAuthenticated: !!user,
+    hasRole: (role) => user?.role === role,
+    hasAnyRole: (roles) => roles.includes(user?.role)
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -2,41 +2,43 @@ import { Router } from "express";
 import {
   createPost,
   deletePost,
+  getAdminPosts,
   getAllPosts,
+  getAuthorPosts,
   getPostById,
   updatePost,
 } from "../controllers/postController.js";
 import authMiddleware from "../middlewares/authMiddlewares.js";
 import authorizeRoles from "../middlewares/roleMiddleware.js";
 import authorizePostOwnership from "../middlewares/authorizePostOwnership.js";
-import upload from "../middlewares/uploadMiddleware.js"
+import upload from "../middlewares/uploadMiddleware.js";
 
 const postRouter = Router();
 
-
-postRouter.post(
-  "/",
-  authMiddleware,
-  upload.single('image'),
-  createPost
-);
+postRouter.post("/", authMiddleware, upload.single("image"), createPost);
 postRouter.put(
   "/:id",
   authMiddleware,
+  authorizeRoles("admin", "author"),
   authorizePostOwnership,
   updatePost
 );
-
-// delete: allow owner (author) and admin
 postRouter.delete(
   "/:id",
   authMiddleware,
-  authorizeRoles("admin"),
+  authorizeRoles("admin", "author"),
+  authorizePostOwnership,
   deletePost
 );
 
-// public read only
 postRouter.get("/", getAllPosts);
 postRouter.get("/:id", getPostById);
+postRouter.get("/author/me", authMiddleware, getAuthorPosts);
+postRouter.get(
+  "/admin/all",
+  authMiddleware,
+  authorizeRoles("admin"),
+  getAdminPosts
+);
 
 export default postRouter;

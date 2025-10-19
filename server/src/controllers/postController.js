@@ -118,7 +118,7 @@ const getAllPosts = async (req, res) => {
       .sort({ createdAt: -1 })
       .select(
         "title excerpt slug postImageUrl postImagePublicId createdAt userId"
-      ) // no content
+      )
       .populate("userId", "username role");
 
     return res
@@ -188,4 +188,25 @@ const updatePost = async (req, res) => {
   }
 };
 
-export { createPost, getAllPosts, getPostById, deletePost, updatePost };
+ const getAuthorPosts = async (req, res, next) => {
+  try {
+    const posts = await postModel.find({ userId: req.user._id }).sort({ createdAt: -1 }).lean();
+    return res.json({ posts });
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+ const getAdminPosts = async (req, res, next) => {
+  try {
+    const posts = await postModel.find().populate("userId", "username email role").sort({ createdAt: -1 }).lean();
+    return res.json({ posts });
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+
+export { createPost, getAllPosts, getPostById, deletePost, updatePost , getAuthorPosts, getAdminPosts};
