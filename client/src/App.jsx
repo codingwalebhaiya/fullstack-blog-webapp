@@ -14,6 +14,10 @@ import AdminPostList from "./pages/Admin/AdminPostList";
 import AdminUsersList from "./pages/Admin/AdminUsersList";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import Unauthorized from "./pages/Unauthorized";
+import AuthorLayout from "./layouts/AuthorLayout";
+import AuthorDashboard from "./pages/Author/AuthorDashboard";
+import AuthorPostList from "./pages/Author/AuthorPostList";
+import AuthorProfile from "./pages/Author/AuthorProfile";
 
 const App = () => {
   return (
@@ -35,10 +39,7 @@ const App = () => {
         >
           <Route path="/create" element={<CreatePost />} />
           <Route path="/edit/:id" element={<EditPost />} />
-          
         </Route>
-        {/* Protected admin routes group */}
-        {/* '/admin' path will render AdminLayout, and nested routes fill Outlet */}
 
         <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
           <Route path="/admin" element={<AdminLayout />}>
@@ -46,6 +47,15 @@ const App = () => {
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="posts" element={<AdminPostList />} />
             <Route path="users" element={<AdminUsersList />} />
+          </Route>
+        </Route>
+
+        <Route element={<PrivateRoute allowedRoles={["author"]} />}>
+          <Route path="/author" element={<AuthorLayout />}>
+            <Route index element={<AuthorDashboard />} />
+            <Route path="dashboard" element={<AuthorDashboard />} />
+            <Route path="posts" element={<AuthorPostList />} />
+            <Route path="profile" element={<AuthorProfile />} />
           </Route>
         </Route>
 

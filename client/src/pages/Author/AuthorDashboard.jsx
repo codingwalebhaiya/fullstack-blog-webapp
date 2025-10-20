@@ -1,10 +1,9 @@
 
-
-const AdminDashboard = () => (
+const AuthorDashboard = () => (
   <div className="text-gray-800 dark:text-gray-200">
     <h2 className="text-2xl font-bold mb-4">Overview</h2>
-    <p>Welcome to the Admin Dashboard 👋</p>
+    <p>Welcome to the Author Dashboard 👋</p>
   </div>
 );
 
-export default AdminDashboard;
+export default AuthorDashboard;

@@ -33,9 +33,13 @@ postRouter.delete(
 
 postRouter.get("/", getAllPosts);
 postRouter.get("/:id", getPostById);
-postRouter.get("/author/me", authMiddleware, getAuthorPosts);
 postRouter.get(
-  "/admin/all",
+  "/author/me",
+  authMiddleware,
+  getAuthorPosts
+);
+postRouter.get(
+  "/admin/me",
   authMiddleware,
   authorizeRoles("admin"),
   getAdminPosts

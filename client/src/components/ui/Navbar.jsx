@@ -64,7 +64,9 @@ const Navbar = () => {
       className={`
           w-full z-50 mt-5 
          border-b border-gray-100 
-         fixed bg-white/90 backdrop-blur-5xl shadow-lg rounded-full bg-opacity-80  top-0 left-0  right-0 transition-transform duration-300 ease-in-out  ${isVisible ? "translate-y-0" : "-translate-y-full"}
+         fixed bg-white/90 backdrop-blur-5xl shadow-lg rounded-full bg-opacity-80  top-0 left-0  right-0 transition-transform duration-300 ease-in-out  ${
+           isVisible ? "translate-y-0" : "-translate-y-full"
+         }
       `}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -105,15 +107,29 @@ const Navbar = () => {
                         {user?.email || "user@email.com"}
                       </div>
                     </div>
+                    {/* i want to implement link path for admin , author, reader */}
+
                     <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
-                      <li>
-                        <Link
-                          to="admin/dashboard"
-                          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                        >
-                          Dashboard
-                        </Link>
-                      </li>
+                      {user?.role === "admin" && (
+                        <li>
+                          <Link
+                            to="admin/dashboard"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            Dashboard
+                          </Link>
+                        </li>
+                      )}
+                      {user?.role === "author" && (
+                        <li>
+                          <Link
+                            to="author/dashboard"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            Dashboard
+                          </Link>
+                        </li>
+                      )}
                     </ul>
                     <div className="py-2">
                       <button

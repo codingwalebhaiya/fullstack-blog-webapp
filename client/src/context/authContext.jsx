@@ -13,6 +13,8 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   console.log(user);
+  console.log(token);
+  
   
 
   // keep axios Authorization header in sync with token

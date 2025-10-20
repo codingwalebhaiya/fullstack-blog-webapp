@@ -191,7 +191,7 @@ const updatePost = async (req, res) => {
  const getAuthorPosts = async (req, res, next) => {
   try {
     const posts = await postModel.find({ userId: req.user._id }).sort({ createdAt: -1 }).lean();
-    return res.json({ posts });
+    return res.json({  message:"Author own fetched successfully", posts });
   } catch (err) {
     next(err);
   }
