@@ -130,6 +130,16 @@ const Navbar = () => {
                           </Link>
                         </li>
                       )}
+                      {user?.role === "reader" && (
+                        <li>
+                          <Link
+                            to="reader/dashboard"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            Dashboard
+                          </Link>
+                        </li>
+                      )}
                     </ul>
                     <div className="py-2">
                       <button
@@ -219,13 +229,36 @@ const Navbar = () => {
                         <PencilSquareIcon className="w-5 h-5" />
                         Write
                       </Link>
-                      <Link
-                        to="/admin/dashboard"
-                        className="block px-2 py-1 text-gray-700 hover:bg-gray-100 rounded-md"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        Dashboard
-                      </Link>
+
+                      {user?.role === "admin" && (
+                        <Link
+                          to="/admin/dashboard"
+                          className="block px-2 py-1 text-gray-700 hover:bg-gray-100 rounded-md"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Dashboard
+                        </Link>
+                      )}
+
+                       {user?.role === "author" && (
+                        <Link
+                          to="/author/dashboard"
+                          className="block px-2 py-1 text-gray-700 hover:bg-gray-100 rounded-md"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Dashboard
+                        </Link>
+                      )}
+
+                       {user?.role === "reader" && (
+                        <Link
+                          to="/reader/dashboard"
+                          className="block px-2 py-1 text-gray-700 hover:bg-gray-100 rounded-md"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Dashboard
+                        </Link>
+                      )}
 
                       <button
                         onClick={() => {

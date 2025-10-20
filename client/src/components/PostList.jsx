@@ -27,12 +27,15 @@ const PostList = () => {
     fetchPosts();
   }, []);
 
-  if (loading)
+
+     if (loading) {
     return (
-      <div className="flex items-center justify-center p-12">
-        <p className="text-xl font-semibold text-gray-600">Loading posts…</p>
+      <div className="flex justify-center items-center h-screen bg-white text-gray-900">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+        <p className="ml-3">Loading Posts...</p>
       </div>
     );
+  }
 
   if (error)
     return (
@@ -43,7 +46,7 @@ const PostList = () => {
       </div>
     );
 
-  // --- Main Content ---
+  
   if (posts.length === 0) {
     return (
       <div className="flex items-center justify-center p-12">

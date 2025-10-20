@@ -20,6 +20,15 @@ const Register = () => {
     await register(formData);
   };
 
+   if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-white text-gray-900">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+        <p className="ml-3">Loading...</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <NavLink

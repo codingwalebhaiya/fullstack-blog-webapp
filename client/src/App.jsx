@@ -18,6 +18,9 @@ import AuthorLayout from "./layouts/AuthorLayout";
 import AuthorDashboard from "./pages/Author/AuthorDashboard";
 import AuthorPostList from "./pages/Author/AuthorPostList";
 import AuthorProfile from "./pages/Author/AuthorProfile";
+import ReaderLayout from "./layouts/ReaderLayout";
+import ReaderDashboard from "./pages/Reader/ReaderDashboard";
+import ReaderProfile from "./pages/Reader/ReaderProfile";
 
 const App = () => {
   return (
@@ -56,6 +59,14 @@ const App = () => {
             <Route path="dashboard" element={<AuthorDashboard />} />
             <Route path="posts" element={<AuthorPostList />} />
             <Route path="profile" element={<AuthorProfile />} />
+          </Route>
+        </Route>
+
+        <Route element={<PrivateRoute allowedRoles={["reader"]} />}>
+          <Route path="/reader" element={<ReaderLayout />}>
+            <Route index element={<ReaderDashboard />} />
+            <Route path="dashboard" element={<ReaderDashboard />} />
+            <Route path="Profile" element={<ReaderProfile />} />
           </Route>
         </Route>
 

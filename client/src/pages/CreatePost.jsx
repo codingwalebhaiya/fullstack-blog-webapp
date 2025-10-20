@@ -134,7 +134,7 @@ const CreatePost = () => {
               type="file"
               name="postImage"
               id="postImage"
-              accept="image/*" // Restrict to image files
+              accept="image/*" 
               onChange={handleImageChange}
               disabled={loading}
               required
@@ -148,7 +148,7 @@ const CreatePost = () => {
             disabled={loading}
             className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-60"
           >
-            {/* {loading ? "Submitting & Uploading..." : "Publish"} */}
+             {loading ? "Submitting & Uploading..." : "Publish"} 
             Publish
           </button>
 

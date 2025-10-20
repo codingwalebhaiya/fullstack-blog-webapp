@@ -1,23 +1,19 @@
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import {
   HomeIcon,
-  DocumentTextIcon,
   ArrowLeftIcon,
   FaceSmileIcon,
-  
 } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const AuthorLayout = () => {
+const ReaderLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
-  
 
   const menuItems = [
-    { name: "Dashboard", path: "/author/dashboard", icon: HomeIcon },
-    { name: "Posts", path: "/author/posts", icon: DocumentTextIcon },
-    { name: "Profile", path: "/author/profile", icon: FaceSmileIcon },
+    { name: "Dashboard", path: "/reader/dashboard", icon: HomeIcon },
+    { name: "Profile", path: "/reader/profile", icon: FaceSmileIcon },
   ];
 
   useEffect(() => {
@@ -37,11 +33,8 @@ const AuthorLayout = () => {
     navigate("/");
   };
 
- 
-
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
-      
       <AnimatePresence>
         {sidebarOpen && (
           <>
@@ -120,19 +113,6 @@ const AuthorLayout = () => {
           <h1 className="text-xl font-semibold text-gray-800 dark:text-white lg:ml-4">
             Author Dashboard
           </h1>
-
-          
-
-          {/* <button
-            onClick={handleBackToHome}
-            className="flex items-center text-sm bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
-          >
-            <ArrowLeftIcon className="w-4 h-4 mr-2" />
-            <span className="hidden sm:inline">Back to Home</span>
-            <span className="sm:hidden">Home</span>
-          </button> */}
-       
-       
         </header>
 
         <main className="flex-1 overflow-y-auto">
@@ -145,4 +125,4 @@ const AuthorLayout = () => {
   );
 };
 
-export default AuthorLayout;
+export default ReaderLayout;

@@ -36,6 +36,7 @@ const AdminLayout = () => {
   const handleBackToHome = () => {
     navigate("/");
   };
+  
 
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
