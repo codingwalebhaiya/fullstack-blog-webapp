@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../utils/api.js";
 import useAuth from "../hooks/useAuth.js";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 const CreatePost = () => {
   const [form, setForm] = useState({ title: "", content: "" });
@@ -74,6 +75,10 @@ const CreatePost = () => {
     }
   };
 
+  const handleBackToHome = () => {
+    navigate("/");
+  };
+
   if (loading)
     return (
       <div className="flex items-center justify-center p-12">
@@ -94,6 +99,13 @@ const CreatePost = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-4">
+      <button
+        onClick={handleBackToHome}
+        className="flex items-center w-full py-3 rounded-lg text-sm font-medium text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900 transition-colors "
+      >
+        <ArrowLeftIcon className="w-5 h-5 mr-3" />
+        Back to Home
+      </button>
       <h2 className="text-2xl font-semibold mb-4">Create Post</h2>
 
       {error && <div className="mb-4 text-red-600">{error}</div>}
@@ -134,7 +146,7 @@ const CreatePost = () => {
               type="file"
               name="postImage"
               id="postImage"
-              accept="image/*" 
+              accept="image/*"
               onChange={handleImageChange}
               disabled={loading}
               required
@@ -148,7 +160,7 @@ const CreatePost = () => {
             disabled={loading}
             className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-60"
           >
-             {loading ? "Submitting & Uploading..." : "Publish"} 
+            {loading ? "Submitting & Uploading..." : "Publish"}
             Publish
           </button>
 
