@@ -31,7 +31,7 @@ const EditPost = () => {
         title: form.title.trim(),
         content: form.content.trim(),
       };
-      const res = await API.post("/posts", payload);
+      const res = await API.post("/api/v1/posts", payload);
       const id = res.data.post?._id || res.data.post?.id;
       const slug = res.data.post?.slug;
       alert("Post created successfully.");

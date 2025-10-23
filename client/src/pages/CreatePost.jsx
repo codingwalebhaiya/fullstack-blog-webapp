@@ -65,7 +65,7 @@ const CreatePost = () => {
       setForm({ title: "", content: "" });
       setPostImage(null);
       if (id) {
-        navigate(`/posts/${slug}/${id}`);
+        navigate(`/api/v1/posts/${slug}/${id}`);
       } else navigate("/post");
     } catch (err) {
       console.error(err);

@@ -26,7 +26,7 @@ const PostDetail = () => {
       setLoading(true);
       try {
         
-        const res = await API.get(`/posts/${id}`);
+        const res = await API.get(`/api/v1/posts/${id}`);
         setSignalPost(res.data.post);
         setError(null);
       } catch (err) {

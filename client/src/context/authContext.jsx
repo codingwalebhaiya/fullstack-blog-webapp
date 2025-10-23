@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
       setError(null);
       try {
-        const res = await API.get("/users/me", { signal: controller.signal });
+        const res = await API.get("/api/v1/users/me", { signal: controller.signal });
         // adapt to your backend: if user is inside res.data.user or res.data
         const fetchedUser = res.data?.user ?? res.data;
         setUser(fetchedUser || null);
@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       setError(null);
-      const res = await API.post("/auth/register", formData);
+      const res = await API.post("/api/v1/auth/register", formData);
       console.log(res);
       setUser(res.data.user);
       toast.success("Registered successfully");
@@ -101,7 +101,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       setError(null);
-      const res = await API.post("/auth/login", formData);
+      const res = await API.post("/api/v1/auth/login", formData);
       console.log(res);
       const token = res.data.token;
       localStorage.setItem("token", token);
