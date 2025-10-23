@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = import.meta.env.VITE_BACKEND_URL|| "https://blog-backend-zd07.onrender.com";
+const baseURL = import.meta.env.VITE_BACKEND_URL|| "https://blog-server-z30k.onrender.com";
 
 const API = axios.create({
   baseURL,

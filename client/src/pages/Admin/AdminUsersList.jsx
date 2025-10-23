@@ -34,7 +34,7 @@ export default function AdminUsersList() {
 
   const deleteUser = async (userId) => {
     try {
-      await API.delete(`/users/${userId}`);
+      await API.delete(`/api/v1/users/${userId}`);
       setUsers(users.filter((user) => user._id !== userId));
       setError(null);
       toast.success("User deleted successfully");

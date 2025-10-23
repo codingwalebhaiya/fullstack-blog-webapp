@@ -47,7 +47,7 @@ const CreatePost = () => {
       // Axios automatically sets the required 'Content-Type: multipart/form-data'
       // when it detects a FormData object.
 
-      const res = await API.post("/posts", formData);
+      const res = await API.post("/api/v1/posts", formData);
       console.log(res);
       const id = res.data.post?._id || res.data.post?.id;
       const slug = res.data.post?.slug;

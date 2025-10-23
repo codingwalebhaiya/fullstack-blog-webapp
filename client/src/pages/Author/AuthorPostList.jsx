@@ -16,7 +16,7 @@ export default function AuthorPostList() {
 
     try {
       const fetchPosts = async () => {
-        const res = await API.get("/posts/author/me");
+        const res = await API.get("/api/v1/posts/author/me");
         console.log(res);
         
         setPosts(res.data.posts || []);
