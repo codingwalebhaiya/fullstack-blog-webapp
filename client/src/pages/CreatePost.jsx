@@ -47,7 +47,13 @@ const CreatePost = () => {
       // Axios automatically sets the required 'Content-Type: multipart/form-data'
       // when it detects a FormData object.
 
-      const res = await API.post("/api/v1/posts", formData);
+      const res = await API.post("/api/v1/posts", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+        timeout: 30000,
+      }); // Longer timeout for file uploads
       console.log(res);
       const id = res.data.post?._id || res.data.post?.id;
       const slug = res.data.post?.slug;

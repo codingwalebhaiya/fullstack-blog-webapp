@@ -5,9 +5,7 @@ const baseURL = import.meta.env.VITE_BACKEND_URL|| "https://blog-server-z30k.onr
 const API = axios.create({
   baseURL,
   timeout: 10000,
-  headers: {
-    "Content-Type": "application/json",
-  },
+ 
 });
 
 // Attach token if available
