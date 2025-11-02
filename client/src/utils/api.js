@@ -1,9 +1,8 @@
 
 
-//const baseURL = import.meta.env.VITE_BACKEND_URL|| "https://blog-server-z30k.onrender.com";
 
 import axios from "axios";
-const baseURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
+const baseURL = import.meta.env.VITE_BACKEND_URL || "https://blog-server-z30k.onrender.com";
 
 const API = axios.create({
   baseURL,
