@@ -1,31 +1,21 @@
 version: "3.8"
 services:
-  mongodb:
-    container_name: mongo
-    image: mongo:latest
-    volumes:
-      - ./server/data:/data
-    ports:
-      - "27017:27017"
-
   backend:
     container_name: backend
     build: ./backend
+    restart: always
     env_file:
       - ./backend/.env
     ports:
       - "5000:5000"
-    depends_on:
-      - mongodb
 
   frontend:
     container_name: frontend
     build: ./frontend
+    restart: always
     env_file:
       - ./frontend/.env
     ports:
-      - "5173:5173"
-
-
-volumes:
-  data:
+      - "8080:80"
+    depends_on:
+      - backend

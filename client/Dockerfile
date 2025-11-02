@@ -13,21 +13,17 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
+# Build the application
+RUN npm run build
+
 # ------------------- Stage 2: Final Stage ------------------------------
 
-FROM node:21-slim
+FROM nginx:alpine
 
-# Set the working directory to /app
-WORKDIR /app
+# Copy build files from React build
+COPY --from=client-builder /app/dist /usr/share/nginx/html
 
-# Copy built assets and dependencies from frontend-builder stage
-COPY --from=frontend-builder /app .
+# Expose port 80
+EXPOSE 80
 
-# Copy the .env.sample file to .env.local
-COPY .env.docker .env.local
-
-# Expose port 5173 for the Node.js application
-EXPOSE 5173
-
-# Define the default command to run the application in development mode
-CMD ["npm", "run", "dev", "--", "--host"]
+CMD ["nginx", "-g", "daemon off;"]
