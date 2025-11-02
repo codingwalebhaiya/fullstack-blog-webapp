@@ -1,10 +1,12 @@
-import axios from "axios";
 
-const baseURL = import.meta.env.VITE_BACKEND_URL|| "https://blog-server-z30k.onrender.com";
+
+//const baseURL = import.meta.env.VITE_BACKEND_URL|| "https://blog-server-z30k.onrender.com";
+
+import axios from "axios";
+const baseURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
 
 const API = axios.create({
   baseURL,
-  timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },
