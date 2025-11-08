@@ -1,24 +1,30 @@
-# ----------------------- Stage 1: Build -------------------
-FROM node:21 AS server-builder
+# Use official Node.js runtime
+FROM node:18-alpine
 
-# setup the working dir
-WORKDIR /app
+# Set working directory
+WORKDIR /usr/src/app
 
-# code
-COPY . .
+# Copy package files
+COPY package*.json ./
 
-# packages install
+# Install dependencies
 RUN npm install
 
-# ------------------- Stage 2: Runtime ------------------------------
-FROM node:21-slim
+# Copy source code
+COPY . .
 
-# setup the working dir
-WORKDIR /app
+# Create non-root user for security
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nodejs -u 1001
 
-# copy the above stage as compressed
-COPY --from=server-builder /app .
+# Change ownership to nodejs user
+RUN chown -R nodejs:nodejs /usr/src/app
 
-ENV NODE_ENV=production
+# Switch to non-root user
+USER nodejs
+
+# Expose port
 EXPOSE 5000
+
+# Start the application
 CMD ["npm", "start"]

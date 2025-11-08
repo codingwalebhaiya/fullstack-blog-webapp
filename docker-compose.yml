@@ -2,20 +2,33 @@ version: "3.8"
 services:
   backend:
     container_name: backend
-    build: ./backend
+    build:
+      context: ./server
+      dockerfile: Dockerfile
     restart: always
     env_file:
-      - ./backend/.env
+      - ./server/.env
     ports:
       - "5000:5000"
+    networks:
+      - mern-network
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
 
   frontend:
     container_name: frontend
-    build: ./frontend
+    build:
+      context: ./client
+      dockerfile: Dockerfile
     restart: always
-    env_file:
-      - ./frontend/.env
     ports:
-      - "8080:80"
+      - "5173:80"
     depends_on:
       - backend
+    networks:
+      - mern-network
+    
+networks:
+  mern-network:
+    driver: bridge

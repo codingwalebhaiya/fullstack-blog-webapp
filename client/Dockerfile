@@ -1,29 +1,32 @@
-# ------------------- Stage 1: Build Stage ------------------------------
-FROM node:21 AS client-builder
+# Build stage
+FROM node:18-alpine as build
 
 # Set working directory
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
+# Copy package files
 COPY package*.json ./
 
-# Install dependency
+# Install dependencies
 RUN npm install
 
-# Copy the rest of the application code
+# Copy source code
 COPY . .
 
-# Build the application
+# Build the app with Vite
 RUN npm run build
 
-# ------------------- Stage 2: Final Stage ------------------------------
-
+# Production stage
 FROM nginx:alpine
 
-# Copy build files from React build
-COPY --from=client-builder /app/dist /usr/share/nginx/html
+# Copy built app to nginx
+COPY --from=build /usr/src/app/dist /usr/share/nginx/html
 
-# Expose port 80
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port
 EXPOSE 80
 
+# Start nginx
 CMD ["nginx", "-g", "daemon off;"]
