@@ -13,12 +13,8 @@ RUN npm install
 # Copy source code
 COPY . .
 
-# Create non-root user for security
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nodejs -u 1001
-
-# Change ownership to nodejs user
-RUN chown -R nodejs:nodejs /usr/src/app
+# Create non-root user (for security)
+RUN addgroup -S nodejs && adduser -S nodejs -G nodejs
 
 # Switch to non-root user
 USER nodejs

@@ -1,4 +1,4 @@
-# Build stage
+# Stage 1: Build stage
 FROM node:18-alpine as build
 
 # Set working directory
@@ -16,7 +16,7 @@ COPY . .
 # Build the app with Vite
 RUN npm run build
 
-# Production stage
+# Stage 2: Production stage
 FROM nginx:alpine
 
 # Copy built app to nginx
