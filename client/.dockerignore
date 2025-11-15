@@ -1,11 +1,18 @@
-node_modules
-npm-debug.log
+node_modules/
+npm-debug.log*
+yarn-error.log*
+.env
+.env.local
 .git
 .gitignore
 README.md
-.env.local
-.env.development
 Dockerfile
 .dockerignore
-docker-compose.yml
-build
+.vscode/
+.idea/
+*.log
+.DS_Store
+Thumbs.db
+dist/  # This gets built during Docker build
+!.env.docker
+!.env.example
