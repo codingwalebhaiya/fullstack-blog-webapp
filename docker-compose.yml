@@ -5,25 +5,22 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    restart: always
+    restart: unless-stopped
     env_file:
-      - ./server/.env
+      - ./server/.env.docker
     ports:
       - "5000:5000"
     networks:
       - mern-network
-    volumes:
-      - ./server:/usr/src/app
-      - /usr/src/app/node_modules
 
   frontend:
     container_name: frontend
     build:
       context: ./client
       dockerfile: Dockerfile
-    restart: always
+    restart: unless-stopped
     ports:
-      - "5173:80"
+      - "80:80"
     depends_on:
       - backend
     networks:
