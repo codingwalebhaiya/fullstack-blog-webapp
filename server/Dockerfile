@@ -1,20 +1,31 @@
 # Use official Node.js runtime
-FROM node:18-alpine
+FROM node:18-alpine as backend-builder
 
 # Set working directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm ci --only=production && npm cache clean --force
 
 # Copy source code
 COPY . .
 
+# Stage 2: Production stage
+FROM node:18-alpine
+
+WORKDIR /app
+
 # Create non-root user (for security)
-RUN addgroup -S nodejs && adduser -S nodejs -G nodejs
+RUN addgroup -g 1001 -S nodejs && \ adduser -S nodejs -u 1001 -G nodejs
+
+# Copy from buider stage
+COPY --from=backend-builder /app /app
+
+# Change ownership of the app directory
+RUN chown -R nodejs:nodejs /app
 
 # Switch to non-root user
 USER nodejs

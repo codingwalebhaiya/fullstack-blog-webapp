@@ -14,5 +14,5 @@ Dockerfile
 .DS_Store
 Thumbs.db
 dist/  # This gets built during Docker build
-!.env.docker
+.env.docker
 !.env.example

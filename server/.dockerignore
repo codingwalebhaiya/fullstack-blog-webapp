@@ -17,5 +17,5 @@ dist/
 build/
 .DS_Store
 Thumbs.db
-!.env.docker
+.env.docker
 !.env.example
