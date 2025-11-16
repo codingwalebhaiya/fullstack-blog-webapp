@@ -32,12 +32,14 @@ client/.env.local
 client/node_modules
 client/build
 client/dist
+client/.env.docker
 
 # Express
 server/node_modules
 server/dist
 server/.env
 server/.env.local
+server/.env.docker
 
 # Docker
 docker-compose.override.yml
