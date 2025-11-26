@@ -1,108 +1,147 @@
-// src/pages/CreatePost.jsx
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import API from "../utils/api.js";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import PostForm from "../components/editor/PostForm";
+import { postService } from "../services/postService";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import Toast from "../components/ui/Toast";
 
 const EditPost = () => {
-  const [form, setForm] = useState({ title: "", content: "" });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [post, setPost] = useState(null);
+  const [toast, setToast] = useState({ show: false, message: "", type: "" });
+  const { user } = useAuth();
   const navigate = useNavigate();
+  const { id } = useParams();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((s) => ({ ...s, [name]: value }));
-    setError(null);
+  console.log(post);
+  console.log(id);
+  
+  
+
+  const showToast = (message, type = "error") => {
+    setToast({ show: true, message, type });
+    setTimeout(() => setToast({ show: false, message: "", type: "" }), 5000);
   };
 
+  // Fetch post data
+  useEffect(() => {
+    const fetchPost = async () => {
+      if (!id) return;
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    setError(null);
+      setLoading(true);
+      try {
+        const result = await postService.getPostById(id);
 
-    if (!form.title.trim() || !form.content.trim()) {
-      setError("Title and content are required.");
-      return;
-    }
+        if (result.success) {
+          // Admin can edit any post, authors can only edit their own posts
+          // if (
+          //   result.data.post.userId._id !== user._id &&
+          //   user.role !== "admin"
+          // ) {
+          //   showToast("You are not authorized to edit this post");
+          //   navigate("/posts");
+          //   return;
+          // }
+          setPost(result.data.post);
+          navigate(`/edit/${result.data.post._id}`);
+        } else {
+          showToast(result.message || "Failed to load post");
+          
+        }
+      } catch (error) {
+        console.error("Error fetching post:", error);
+        showToast("Failed to load post");
+        navigate("/posts");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPost();
+  }, [id, user, navigate]);
+
+  const handleUpdatePost = async (postData) => {
+    if (!post) return;
+
+    setSubmitting(true);
 
     try {
-      setLoading(true);
-      const payload = {
-        title: form.title.trim(),
-        content: form.content.trim(),
-      };
-      const res = await API.post("/api/v1/posts", payload);
-      const id = res.data.post?._id || res.data.post?.id;
-      const slug = res.data.post?.slug;
-      alert("Post created successfully.");
-      setForm({ title: "", content: "" });
-      if (id) navigate(`/posts/${slug}/${id}`);
-      else navigate("/posts");
-    } catch (err) {
-      console.error(err);
-      setError(err.response?.data?.error || "Failed to create post.");
+      const result = await postService.updatePost(post._id, postData);
+
+      if (result.success) {
+        showToast("Post updated successfully!", "success");
+
+        // Redirect to the updated post
+        setTimeout(() => {
+          navigate(`/posts/${result.data.post.slug}/${result.data.post._id}`);
+        
+        }, 1500);
+      } else {
+        showToast(result.message || "Failed to update post");
+        navigate("/posts");
+      }
+    } catch (error) {
+      console.error("Error updating post:", error);
+      showToast("An unexpected error occurred");
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
 
-   if (loading) {
+  if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-white text-gray-900">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-        <p className="ml-3">Loading Post...</p>
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
+  }
+
+  if (!post) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold text-gray-900">
+            Post not found
+          </h2>
+          <button
+            onClick={() => navigate("/posts")}
+            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+          >
+            Back to Posts
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-4">
-      <h2 className="text-2xl font-semibold mb-4">Create Post</h2>
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <h1 className="text-2xl font-bold text-gray-900">Edit Post</h1>
+            <p className="text-gray-600 mt-1">
+              Update your post content and information
+            </p>
+          </div>
 
-      {error && <div className="mb-4 text-red-600">{error}</div>}
-
-      <form onSubmit={submitHandler} className="space-y-4">
-        <div>
-          <label className="block mb-1 font-medium">Title</label>
-          <input
-            name="title"
-            value={form.title}
-            onChange={handleChange}
-            placeholder="Enter title"
-            className="w-full p-2 border rounded"
+          <PostForm
+            onSubmit={handleUpdatePost}
+            submitButtonText="Update Post"
+            isLoading={submitting}
+            initialData={post}
           />
         </div>
+      </div>
 
-        <div>
-          <label className="block mb-1 font-medium">Content</label>
-          <textarea
-            name="content"
-            value={form.content}
-            onChange={handleChange}
-            rows="10"
-            placeholder="Write your post content..."
-            className="w-full p-2 border rounded"
-          />
-        </div>
-
-        <div className="flex items-center gap-3">
-          <button
-            type="submit"
-            disabled={loading}
-            className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-60"
-          >
-            {loading ? "Publishing..." : "Publish"}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setForm({ title: "", content: "" })}
-            className="px-4 py-2 border rounded"
-          >
-            Clear
-          </button>
-        </div>
-      </form>
+      <Toast
+        show={toast.show}
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ show: false, message: "", type: "" })}
+      />
     </div>
   );
 };

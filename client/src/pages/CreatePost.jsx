@@ -1,186 +1,94 @@
-import { useState } from "react";
+import  { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../utils/api.js";
-import useAuth from "../hooks/useAuth.js";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import useAuth from "../hooks/useAuth";
+import PostForm from "../components/editor/PostForm";
+import { postService } from "../services/postService";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import Toast from "../components/ui/Toast";
 
 const CreatePost = () => {
-  const [form, setForm] = useState({ title: "", content: "" });
-  const [postImage, setPostImage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const { token } = useAuth();
+  const [toast, setToast] = useState({ show: false, message: "", type: "" });
+  const { user, updateToken } = useAuth();
   const navigate = useNavigate();
 
-  const handleTextChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+  const showToast = (message, type = "error") => {
+    setToast({ show: true, message, type });
+    setTimeout(() => setToast({ show: false, message: "", type: "" }), 5000);
   };
 
-  const handleImageChange = (e) => {
-    // e.target.files is a FileList, we only care about the first file
-    setPostImage(e.target.files[0]);
-  };
-
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    setError(null);
-    if (!form.title || !form.content || !postImage) {
-      setError("All fields and an image are required.");
-      setLoading(false);
+  const handleCreatePost = async (postData) => {
+    if (!user) {
+      showToast("Please log in to create a post");
       return;
     }
 
-    //Create FormData
-    // This object is necessary to send both files and text fields
-    const formData = new FormData();
-    formData.append("title", form.title);
-    formData.append("content", form.content);
-
-    // Append the file with the KEY matching the Multer setup
-    //'image' MUST match the key used in upload.single('image') on the server side
-    formData.append("image", postImage);
+    setLoading(true);
 
     try {
-      // Axios automatically sets the required 'Content-Type: multipart/form-data'
-      // when it detects a FormData object.
+      const result = await postService.createPost(postData);
+      if (result.success) {
+        showToast("Post created successfully!", "success");
 
-      const res = await API.post("/api/v1/posts", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-        timeout: 30000,
-      }); // Longer timeout for file uploads
-      console.log(res);
-      const id = res.data.post?._id || res.data.post?.id;
-      const slug = res.data.post?.slug;
-      localStorage.setItem("token", token);
-
-      if (res.ok) {
-        alert("Post created successfully");
-        console.log("Post created successfully!", res.data);
-        // Check if the server sent a new token, and update it
-        if (res.data.token) {
-          localStorage.setItem("token", res.data.token);
-          console.log("Role updated to author. New token stored.");
+        // Update token if user role changed
+        if (result.data.token) {
+          updateToken(result.data.token);
         }
+
+        // Redirect to the new post or posts list
+        setTimeout(() => {
+          navigate(`/posts/${result.data.post.slug}/${result.data.post._id}`);
+        }, 1500);
+      } else {
+        showToast(result.message || "Failed to create post");
+        navigate("/posts");
       }
-      setForm({ title: "", content: "" });
-      setPostImage(null);
-      if (id) {
-        navigate(`/posts/${slug}/${id}`);
-      } else navigate("/post");
-    } catch (err) {
-      console.error(err);
-      setError(err.response?.data?.error || "Failed to create post.");
+    } catch (error) {
+      console.error("Error creating post:", error);
+      showToast("An unexpected error occurred");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleBackToHome = () => {
-    navigate("/");
-  };
-
-  if (loading)
+  if (loading) {
     return (
-      <div className="flex items-center justify-center p-12">
-        <p className="text-xl font-semibold text-gray-600">
-          Submitting & Uploading...
-        </p>
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="lg" />
       </div>
     );
-
-  if (error)
-    return (
-      <div className="flex items-center justify-center p-12">
-        <div className="text-red-600 p-4 bg-red-50 rounded-lg shadow-md">
-          Error: {error}
-        </div>
-      </div>
-    );
+  }
 
   return (
-    <div className="max-w-3xl mx-auto p-4">
-      <button
-        onClick={handleBackToHome}
-        className="flex items-center w-full py-3 rounded-lg text-sm font-medium text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900 transition-colors "
-      >
-        <ArrowLeftIcon className="w-5 h-5 mr-3" />
-        Back to Home
-      </button>
-      <h2 className="text-2xl font-semibold mb-4">Create Post</h2>
-
-      {error && <div className="mb-4 text-red-600">{error}</div>}
-
-      <form onSubmit={submitHandler} className="space-y-4">
-        <div>
-          <label className="block mb-1 font-medium">Title</label>
-          <input
-            type="text"
-            name="title"
-            value={form.title}
-            onChange={handleTextChange}
-            placeholder="Enter title"
-            disabled={loading}
-            required
-            className="w-full p-2 border rounded"
-          />
-        </div>
-
-        <div>
-          <label className="block mb-1 font-medium">Content</label>
-          <textarea
-            name="content"
-            value={form.content}
-            onChange={handleTextChange}
-            rows="10"
-            disabled={loading}
-            required
-            placeholder="Write your post content..."
-            className="w-full p-2 border rounded"
-          />
-        </div>
-
-        <div>
-          <label className="block mb-1 font-medium">Post Image</label>
-          <div className="upload-overlay">
-            <input
-              type="file"
-              name="postImage"
-              id="postImage"
-              accept="image/*"
-              onChange={handleImageChange}
-              disabled={loading}
-              required
-            />
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <h1 className="text-2xl font-bold text-gray-900">
+              Create New Post
+            </h1>
+            <p className="text-gray-600 mt-1">
+              Share your thoughts and ideas with the world
+            </p>
           </div>
-        </div>
 
-        <div className="flex items-center gap-3">
-          <button
-            type="submit"
-            disabled={loading}
-            className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-60"
-          >
-            {loading ? "Submitting & Uploading..." : "Publish"}
-            Publish
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setForm({ title: "", content: "" })}
-            className="px-4 py-2 border rounded"
-          >
-            Clear
-          </button>
+          <PostForm
+            onSubmit={handleCreatePost}
+            submitButtonText="Create Post"
+            isLoading={loading}
+          />
         </div>
-      </form>
+      </div>
+
+      <Toast
+        show={toast.show}
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ show: false, message: "", type: "" })}
+      />
     </div>
   );
 };
 
 export default CreatePost;
+

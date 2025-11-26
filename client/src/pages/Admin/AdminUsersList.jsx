@@ -1,4 +1,3 @@
-// src/pages/AdminUsersList.jsx
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth.js"
 import { toast } from "react-toastify";
@@ -52,8 +51,8 @@ export default function AdminUsersList() {
       <h2 className="text-xl font-semibold mb-4">All Users</h2>
       <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded shadow-sm">
         <table className="min-w-full text-left">
-          <thead className="bg-gray-50 dark:bg-gray-700">
-            <tr>
+          <thead className="bg-gray-50 dark:bg-gray-700 text-white ">
+            <tr className="bg-yellow-600">
               <th className="px-4 py-2">#</th>
               <th className="px-4 py-2">Name</th>
               <th className="px-4 py-2">Email</th>
@@ -65,7 +64,7 @@ export default function AdminUsersList() {
             {users.map((u, idx) => (
               <tr
                 key={u._id}
-                className="border-t border-gray-100 dark:border-gray-700"
+                className="border-t border-gray-100 dark:border-gray-700 text-white "
               >
                 <td className="px-4 py-3">{idx + 1}</td>
                 <td className="px-4 py-3">

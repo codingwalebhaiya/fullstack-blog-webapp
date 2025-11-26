@@ -2,6 +2,50 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import API from "../utils/api.js";
 import formatDate from "../utils/formatDate.js";
+import SafeHTML from "../components/editor/SafeHTML.jsx";
+
+
+// // SafeHTML component to render HTML content properly
+// const SafeHTML = ({ html, className = "" }) => {
+//   const createMarkup = (content) => {
+//     if (!content) return { __html: "" };
+    
+//     // Process HTML to ensure proper rendering
+//     const processedHTML = content
+//       // Fix common HTML entities
+//       .replace(/&lt;/g, '<')
+//       .replace(/&gt;/g, '>')
+//       .replace(/&amp;/g, '&')
+//       .replace(/&quot;/g, '"')
+//       .replace(/&#39;/g, "'")
+//       // Ensure proper tag formatting
+//       .replace(/<strong>/gi, '<strong>')
+//       .replace(/<\/strong>/gi, '</strong>')
+//       .replace(/<em>/gi, '<em>')
+//       .replace(/<\/em>/gi, '</em>')
+//       .replace(/<u>/gi, '<u>')
+//       .replace(/<\/u>/gi, '</u>')
+//       .replace(/<s>/gi, '<s>')
+//       .replace(/<\/s>/gi, '</s>')
+//       .replace(/<code>/gi, '<code>')
+//       .replace(/<\/code>/gi, '</code>')
+//       .replace(/<pre>/gi, '<pre>')
+//       .replace(/<\/pre>/gi, '</pre>')
+//       // Fix paragraph tags
+//       .replace(/<p><\/p>/g, '') // Remove empty paragraphs
+//       // Remove any potential script tags for security
+//       .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+
+//     return { __html: processedHTML };
+//   };
+
+//   return (
+//     <div 
+//       className={`prose prose-lg max-w-none ${className}`}
+//       dangerouslySetInnerHTML={createMarkup(html)} 
+//     />
+//   );
+// };
 
 const PostDetail = () => {
   const [signalPost, setSignalPost] = useState({
@@ -117,15 +161,10 @@ const PostDetail = () => {
               </div>
             )}
 
-            <article
-              // Using prose for optimal reading typography, limiting the width to match the screenshot's style
-              className="prose prose-lg max-w-none text-gray-800 leading-relaxed font-serif"
-            >
-              {/* NOTE: You need a Markdown renderer for proper HTML output. 
-                                This simple map is fine for basic text content, but it won't render true Markdown. */}
-              {signalPost.content.split("\n\n").map((paragraph, index) => (
-                <p key={index}>{paragraph}</p>
-              ))}
+           
+
+            <article className="text-gray-800 leading-relaxed">
+              <SafeHTML html={signalPost.content} stripTags={false} className="prose prose-lg max-w-none" />
             </article>
           </main>
 

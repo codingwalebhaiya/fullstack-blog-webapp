@@ -7,6 +7,7 @@ import {
   getAuthorPosts,
   getPostById,
   updatePost,
+  uploadImages,
 } from "../controllers/postController.js";
 import authMiddleware from "../middlewares/authMiddlewares.js";
 import authorizeRoles from "../middlewares/roleMiddleware.js";
@@ -15,7 +16,8 @@ import upload from "../middlewares/uploadMiddleware.js";
 
 const postRouter = Router();
 
-postRouter.post("/", authMiddleware, upload.single("image"), createPost);
+postRouter.post("/", authMiddleware, createPost);
+postRouter.post("/post-image", authMiddleware, upload.single("image"), uploadImages);
 postRouter.put(
   "/:id",
   authMiddleware,

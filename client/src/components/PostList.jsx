@@ -1,12 +1,13 @@
-
 import { useState, useEffect } from "react";
 import PostCard from "./PostCard";
-import API from "../utils/api.js"; // Assuming this utility is correct
+import API from "../utils/api.js"; 
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  console.log(posts);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -27,8 +28,7 @@ const PostList = () => {
     fetchPosts();
   }, []);
 
-
-     if (loading) {
+  if (loading) {
     return (
       <div className="flex justify-center items-center h-screen bg-white text-gray-900">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
@@ -46,7 +46,6 @@ const PostList = () => {
       </div>
     );
 
-  
   if (posts.length === 0) {
     return (
       <div className="flex items-center justify-center p-12">
@@ -61,7 +60,6 @@ const PostList = () => {
         <h1 className="text-3xl font-bold text-gray-900 mb-6 px-4 sm:px-6 hidden">
           Latest Posts
         </h1>
-
         {posts.map((post) => (
           <PostCard key={post._id} post={post} />
         ))}

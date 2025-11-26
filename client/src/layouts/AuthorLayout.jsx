@@ -4,7 +4,6 @@ import {
   DocumentTextIcon,
   ArrowLeftIcon,
   FaceSmileIcon,
-  
 } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,7 +11,6 @@ import { motion, AnimatePresence } from "framer-motion";
 const AuthorLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
-  
 
   const menuItems = [
     { name: "Dashboard", path: "/author/dashboard", icon: HomeIcon },
@@ -37,11 +35,8 @@ const AuthorLayout = () => {
     navigate("/");
   };
 
- 
-
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
-      
       <AnimatePresence>
         {sidebarOpen && (
           <>
@@ -121,8 +116,6 @@ const AuthorLayout = () => {
             Author Dashboard
           </h1>
 
-          
-
           {/* <button
             onClick={handleBackToHome}
             className="flex items-center text-sm bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
@@ -131,8 +124,6 @@ const AuthorLayout = () => {
             <span className="hidden sm:inline">Back to Home</span>
             <span className="sm:hidden">Home</span>
           </button> */}
-       
-       
         </header>
 
         <main className="flex-1 overflow-y-auto">

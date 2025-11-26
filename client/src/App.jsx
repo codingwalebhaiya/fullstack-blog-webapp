@@ -2,8 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import CreatePost from "./pages/CreatePost";
-import EditPost from "./pages/EditPost";
 import { ToastContainer } from "react-toastify";
 import PostListPage from "./pages/PostListPage";
 import PostDetail from "./pages/PostDetail";
@@ -21,6 +19,9 @@ import AuthorProfile from "./pages/Author/AuthorProfile";
 import ReaderLayout from "./layouts/ReaderLayout";
 import ReaderDashboard from "./pages/Reader/ReaderDashboard";
 import ReaderProfile from "./pages/Reader/ReaderProfile";
+import CreatePost from "./pages/CreatePost";
+import EditPost from "./pages/EditPost";
+
 
 const App = () => {
   return (
