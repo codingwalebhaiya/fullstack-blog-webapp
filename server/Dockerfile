@@ -19,7 +19,7 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Create non-root user (for security)
-RUN addgroup -g 1001 -S nodejs && \ adduser -S nodejs -u 1001 -G nodejs
+RUN addgroup -S nodejs && adduser -S -G nodejs nodejs
 
 # Copy from buider stage
 COPY --from=backend-builder /app /app
