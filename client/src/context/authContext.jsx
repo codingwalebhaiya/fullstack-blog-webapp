@@ -11,10 +11,6 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  console.log(user);
-  console.log(token);
-  
   
 
   // keep axios Authorization header in sync with token
@@ -81,7 +77,6 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
       setError(null);
       const res = await API.post("/api/v1/auth/register", formData);
-      console.log(res);
       setUser(res.data.user);
       toast.success("Registered successfully");
       navigate("/login");
@@ -102,7 +97,6 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
       setError(null);
       const res = await API.post("/api/v1/auth/login", formData);
-      console.log(res);
       const token = res.data.token;
       localStorage.setItem("token", token);
       setToken(token);
