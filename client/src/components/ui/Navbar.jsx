@@ -84,7 +84,7 @@ const Navbar = () => {
               className="flex items-center gap-2 p-2 lg:p-0 text-gray-700 hover:text-green-600 font-medium transition duration-200"
             >
               <PencilSquareIcon className="w-5 h-5" />
-              Write
+              Create 
             </Link>
 
             {token ? (
