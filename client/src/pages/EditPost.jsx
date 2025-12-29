@@ -15,11 +15,6 @@ const EditPost = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  console.log(post);
-  console.log(id);
-  
-  
-
   const showToast = (message, type = "error") => {
     setToast({ show: true, message, type });
     setTimeout(() => setToast({ show: false, message: "", type: "" }), 5000);

@@ -4,49 +4,6 @@ import API from "../utils/api.js";
 import formatDate from "../utils/formatDate.js";
 import SafeHTML from "../components/editor/SafeHTML.jsx";
 
-
-// // SafeHTML component to render HTML content properly
-// const SafeHTML = ({ html, className = "" }) => {
-//   const createMarkup = (content) => {
-//     if (!content) return { __html: "" };
-    
-//     // Process HTML to ensure proper rendering
-//     const processedHTML = content
-//       // Fix common HTML entities
-//       .replace(/&lt;/g, '<')
-//       .replace(/&gt;/g, '>')
-//       .replace(/&amp;/g, '&')
-//       .replace(/&quot;/g, '"')
-//       .replace(/&#39;/g, "'")
-//       // Ensure proper tag formatting
-//       .replace(/<strong>/gi, '<strong>')
-//       .replace(/<\/strong>/gi, '</strong>')
-//       .replace(/<em>/gi, '<em>')
-//       .replace(/<\/em>/gi, '</em>')
-//       .replace(/<u>/gi, '<u>')
-//       .replace(/<\/u>/gi, '</u>')
-//       .replace(/<s>/gi, '<s>')
-//       .replace(/<\/s>/gi, '</s>')
-//       .replace(/<code>/gi, '<code>')
-//       .replace(/<\/code>/gi, '</code>')
-//       .replace(/<pre>/gi, '<pre>')
-//       .replace(/<\/pre>/gi, '</pre>')
-//       // Fix paragraph tags
-//       .replace(/<p><\/p>/g, '') // Remove empty paragraphs
-//       // Remove any potential script tags for security
-//       .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
-
-//     return { __html: processedHTML };
-//   };
-
-//   return (
-//     <div 
-//       className={`prose prose-lg max-w-none ${className}`}
-//       dangerouslySetInnerHTML={createMarkup(html)} 
-//     />
-//   );
-// };
-
 const PostDetail = () => {
   const [signalPost, setSignalPost] = useState({
     title: "",
@@ -120,7 +77,7 @@ const PostDetail = () => {
     <div className="min-h-screen bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row justify-center">
-          {/* Use max-w-2xl or max-w-3xl for the ideal reading width (the center column) */}
+          
           <main className="w-full lg:max-w-4xl xl:max-w-5xl py-10 lg:py-16">
             <header className="mb-8 px-0 sm:px-0">
               <h1 className="text-4xl sm:text-5xl lg:text-5xl font-extrabold leading-snug tracking-tight mb-4 text-gray-900">

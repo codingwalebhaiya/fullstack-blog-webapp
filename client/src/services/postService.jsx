@@ -1,4 +1,3 @@
-// services/postService.js
 import API from "../utils/api";
 
 export const postService = {

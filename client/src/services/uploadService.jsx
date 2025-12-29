@@ -1,4 +1,3 @@
-// services/uploadService.js
 import API from "../utils/api";
 
 export const uploadService = {
