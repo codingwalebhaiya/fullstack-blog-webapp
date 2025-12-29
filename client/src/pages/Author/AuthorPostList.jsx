@@ -14,7 +14,6 @@ export default function AuthorPostList() {
     }
     try {
       const response = await API.delete(`/api/v1/posts/${postId}`);
-      console.log(response);
       if (response.status === 200) {
         // Remove the deleted post from state
         setPosts(posts.filter((post) => post._id !== postId));
@@ -26,7 +25,6 @@ export default function AuthorPostList() {
         message: "Post deleted successfully",
       };
     } catch (error) {
-      console.log(error);
       return {
         success: false,
         message: error.response?.data?.message || "Failed to delete post",
@@ -43,8 +41,6 @@ export default function AuthorPostList() {
     try {
       const fetchPosts = async () => {
         const res = await API.get("/api/v1/posts/author/me");
-        console.log(res);
-
         setPosts(res.data.posts || []);
       };
 

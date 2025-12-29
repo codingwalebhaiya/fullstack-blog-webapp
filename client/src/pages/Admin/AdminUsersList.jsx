@@ -18,7 +18,6 @@ export default function AdminUsersList() {
     try {
       const fetchUsers = async () => {
         const res = await API.get("/api/v1/users");
-        console.log(res);
         
         setUsers(res.data.users);
       };
