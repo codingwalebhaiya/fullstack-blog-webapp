@@ -11,6 +11,8 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Image from "@tiptap/extension-image";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import { common, createLowlight } from "lowlight";
+import { useDebouncedCallback } from "use-debounce";
+import { sanitizeHtml } from "./sanitizeHtml";
 
 const lowlight = createLowlight(common);
 
@@ -29,6 +31,8 @@ const TiptapEditor = ({
           levels: [1, 2, 3],
         },
         codeBlock: false,
+        link: false,
+        underline: false,
       }),
       CodeBlockLowlight.configure({
         lowlight,
@@ -59,10 +63,11 @@ const TiptapEditor = ({
       }),
     ],
     content: value,
+
     onUpdate: ({ editor }) => {
-      const html = editor.getHTML();
-      onChange(html);
+      debouncedUpdate(editor);
     },
+
     editorProps: {
       attributes: {
         class: "prose prose-lg max-w-none focus:outline-none p-6 min-h-[400px] bg-white",
@@ -70,6 +75,11 @@ const TiptapEditor = ({
       },
     },
   });
+
+  const debouncedUpdate = useDebouncedCallback((editor) => {
+    const cleanHTML = sanitizeHtml(editor.getHTML());
+    onChange(cleanHTML);
+  }, 500);
 
   // Improved Link Functionality
   const setLink = useCallback(() => {
@@ -142,7 +152,7 @@ const TiptapEditor = ({
       const youtubeWrapper = document.createElement('div');
       youtubeWrapper.className = 'youtube-embed my-6 p-4 bg-gray-50 rounded-lg border border-gray-200';
       youtubeWrapper.setAttribute('data-youtube-id', videoId);
-      
+
       const iframe = document.createElement('iframe');
       iframe.src = `https://www.youtube.com/embed/${videoId}`;
       iframe.width = '100%';
@@ -151,9 +161,9 @@ const TiptapEditor = ({
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
       iframe.allowFullscreen = true;
       iframe.className = 'rounded-lg shadow-md';
-      
+
       youtubeWrapper.appendChild(iframe);
-      
+
       const caption = document.createElement('p');
       caption.className = 'text-sm text-gray-500 mt-2 text-center';
       caption.textContent = 'YouTube Video';
@@ -192,15 +202,15 @@ const TiptapEditor = ({
       // Here you would typically upload to your server
       // For now, we'll create a local URL
       const imageUrl = URL.createObjectURL(file);
-      
+
       // Insert image at current position
       editor
         .chain()
         .focus()
-        .setImage({ 
+        .setImage({
           src: imageUrl,
           alt: file.name,
-          title: file.name 
+          title: file.name
         })
         .run();
 
@@ -208,7 +218,7 @@ const TiptapEditor = ({
       // 1. Upload to your server
       // 2. Get back the actual URL
       // 3. Update the image src with the actual URL
-      
+
     } catch (error) {
       console.error('Error uploading image:', error);
       alert('Failed to upload image');
@@ -233,7 +243,7 @@ const TiptapEditor = ({
   }, [editor]);
 
   const toggleCodeBlock = useCallback(() => {
-    if (!editor) return;
+    if (!editor || !editor.commands.toggleCodeBlock) return;
     editor.chain().focus().toggleCodeBlock().run();
   }, [editor]);
 
@@ -468,7 +478,7 @@ const TiptapEditor = ({
           >
             <span className="text-lg">🔗</span>
           </EditorButton>
-          
+
           {editor.isActive("link") && (
             <EditorButton
               onClick={unsetLink}
@@ -477,14 +487,14 @@ const TiptapEditor = ({
               <span className="text-lg">🚫</span>
             </EditorButton>
           )}
-          
-          <EditorButton 
-            onClick={handleImageUpload} 
+
+          <EditorButton
+            onClick={handleImageUpload}
             title="Upload Image"
           >
             <span className="text-lg">🖼️</span>
           </EditorButton>
-          
+
           <EditorButton onClick={addYouTube} title="Insert YouTube Video">
             <span className="text-lg">📺</span>
           </EditorButton>
@@ -517,8 +527,8 @@ const TiptapEditor = ({
 
       {/* Enhanced Editor Content */}
       <div className="editor-content bg-gradient-to-br from-white to-gray-50" style={{ height }}>
-        <EditorContent 
-          editor={editor} 
+        <EditorContent
+          editor={editor}
           className="h-full overflow-auto"
         />
       </div>
