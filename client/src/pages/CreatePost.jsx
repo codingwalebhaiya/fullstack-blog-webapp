@@ -27,6 +27,7 @@ const CreatePost = () => {
 
     try {
       const result = await postService.createPost(postData);
+      console.log(result)
       if (result.success) {
         showToast("Post created successfully!", "success");
 

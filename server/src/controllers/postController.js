@@ -3,6 +3,7 @@ import postModel from "../models/postModel.js";
 import userModel from "../models/userModel.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import generateToken from "../utils/jwt.js";
+import santizePostContent from "../utils/sanitizeHtml.js";
 
 const uploadImages = async (req, res) => {
   // Multer makes the file buffer available here
@@ -16,7 +17,7 @@ const uploadImages = async (req, res) => {
     // Pass the buffer (req.file.buffer) to the utility function
     const uploadResult = await uploadOnCloudinary(file.buffer);
 
-    // ✨ Key Change: Send the Cloudinary result back to the client
+    // Key Change: Send the Cloudinary result back to the client
     return res.status(200).json({
       message: "Image uploaded successfully",
       imageUrl: uploadResult.secure_url,
@@ -33,9 +34,10 @@ const uploadImages = async (req, res) => {
 
 const createPost = async (req, res) => {
   try {
-    const { title, content, postImageUrl, postImagePublicId } = req.body;
+    const cleanContent = santizePostContent(req.body.content);
+    const { title, postImageUrl, postImagePublicId } = req.body;
 
-    if (!title || !content) {
+    if (!title || !cleanContent) {
       return res.status(400).json({ message: "Title, content are required" });
     }
 
@@ -63,11 +65,11 @@ const createPost = async (req, res) => {
 
     // Create excerpt from content (around 100 characters)
     // Remove HTML tags first, then slice
-    const plainTextContent = content.replace(/<[^>]*>/g, "");
-    let excerpt = plainTextContent.slice(0, 100).trim();
+    //const plainTextContent = content.replace(/<[^>]*>/g, "");
+    let excerpt = cleanContent.slice(0, 100).trim();
 
     // If we cut in the middle of a word/sentence, find the last space and trim there
-    if (plainTextContent.length > 100 && excerpt.length === 100) {
+    if (cleanContent.length > 100 && excerpt.length === 100) {
       const lastSpaceIndex = excerpt.lastIndexOf(" ");
       if (lastSpaceIndex > 80) {
         // Ensure we don't cut too short
@@ -76,14 +78,14 @@ const createPost = async (req, res) => {
     }
 
     // Add ellipsis only if content was truncated
-    if (plainTextContent.length > 100) {
+    if (cleanContent.length > 100) {
       excerpt += "...";
     }
 
     const newPost = new postModel({
       userId: req.user._id,
       title:trimmedTitle,
-      content,
+      content:cleanContent,
       excerpt,
       slug,
       // postImageUrl: uploadResult.secure_url, // Get URL from the result
@@ -196,7 +198,8 @@ const deletePost = async (req, res) => {
 const updatePost = async (req, res) => {
   try {
     const { id } = req.params; // Get id from URL params
-    const { title, content, postImageUrl, postImagePublicId } = req.body;
+    const cleanUpdatedContent = santizePostContent(req.body.content);
+    const { title, postImageUrl, postImagePublicId } = req.body;
 
     // Find the post first
     const post = await postModel.findById(id);
@@ -204,7 +207,7 @@ const updatePost = async (req, res) => {
       return res.status(404).json({ message: "Post not found" });
     }
 
-    if (!title && !content) {
+    if (!title && !cleanUpdatedContent) {
       return res.status(400).json({ message: "Nothing to update" });
     }
 
@@ -230,15 +233,15 @@ const updatePost = async (req, res) => {
       updateFields.slug = slug;
     }
 
-    if (content) {
-      updateFields.content = content;
+    if (cleanUpdatedContent) {
+      updateFields.content = cleanUpdatedContent;
       // Generate excerpt from content
       const excerpt =
-        content
-          .replace(/<[^>]*>/g, "") // Remove HTML tags
+        cleanUpdatedContent
+        //  .replace(/<[^>]*>/g, "") // Remove HTML tags
           .slice(0, 200)
           .trim()
-          .replace(/\s+\S*$/, "") + "...";
+        //  .replace(/\s+\S*$/, "") + "...";
       updateFields.excerpt = excerpt;
     }
 
