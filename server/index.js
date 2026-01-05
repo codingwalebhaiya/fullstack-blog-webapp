@@ -5,12 +5,15 @@ import dbConnect from "./src/config/db.js";
 import postRouter from "./src/routes/postRoute.js";
 import userRouter from "./src/routes/userRoute.js";
 import cors from "cors";
+import cookieParser from "cookie-parser"
 
 dotenv.config();
 
 dbConnect();
 const app = express();
 const port = process.env.PORT;
+
+app.use(cookieParser());
 
 app.use(
   cors({

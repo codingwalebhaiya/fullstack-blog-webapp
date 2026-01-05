@@ -9,7 +9,6 @@ import Toast from "../components/ui/Toast";
 const CreatePost = () => {
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState({ show: false, message: "", type: "" });
-  const { user, updateToken } = useAuth();
   const navigate = useNavigate();
 
   const showToast = (message, type = "error") => {
@@ -18,11 +17,6 @@ const CreatePost = () => {
   };
 
   const handleCreatePost = async (postData) => {
-    if (!user) {
-      showToast("Please log in to create a post");
-      return;
-    }
-
     setLoading(true);
 
     try {
@@ -31,10 +25,10 @@ const CreatePost = () => {
       if (result.success) {
         showToast("Post created successfully!", "success");
 
-        // Update token if user role changed
-        if (result.data.token) {
-          updateToken(result.data.token);
-        }
+        // // Update token if user role changed
+        // if (result.data.token) {
+        //   updateToken(result.data.token);
+        // }
 
         // Redirect to the new post or posts list
         setTimeout(() => {

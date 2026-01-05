@@ -84,7 +84,7 @@ const Login = () => {
               Register
             </span>
           </p>
-        </div>{" "}
+        </div>
       </div>
     </div>
   );

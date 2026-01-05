@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import { useRef } from "react";
 
 const Navbar = () => {
-  const { user, token, logout } = useAuth();
+  const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -64,9 +64,8 @@ const Navbar = () => {
       className={`
           w-full z-50 mt-5 
          border-b border-gray-100 
-         fixed bg-white/90 backdrop-blur-5xl shadow-lg rounded-full bg-opacity-80  top-0 left-0  right-0 transition-transform duration-300 ease-in-out  ${
-           isVisible ? "translate-y-0" : "-translate-y-full"
-         }
+         fixed bg-white/90 backdrop-blur-5xl shadow-lg rounded-full bg-opacity-80  top-0 left-0  right-0 transition-transform duration-300 ease-in-out  ${isVisible ? "translate-y-0" : "-translate-y-full"
+        }
       `}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -84,10 +83,10 @@ const Navbar = () => {
               className="flex items-center gap-2 p-2 lg:p-0 text-gray-700 hover:text-green-600 font-medium transition duration-200"
             >
               <PencilSquareIcon className="w-5 h-5" />
-              Create 
+              Create
             </Link>
 
-            {token ? (
+            {user ? (
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setIsDropdownOpen((prev) => !prev)}
@@ -179,21 +178,20 @@ const Navbar = () => {
       </div>
 
       <div
-        className={`lg:hidden ${
-          isMenuOpen ? "block" : "hidden"
-        } absolute w-full bg-white/90 backdrop-blur-lg shadow-lg`}
+        className={`lg:hidden ${isMenuOpen ? "block" : "hidden"
+          } absolute w-full bg-white/90 backdrop-blur-lg shadow-lg`}
       >
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
           <div className="flex flex-col items-start p-2 space-y-2">
             <div>
-              {token ? (
+              {user ? (
                 <Link
                   to="/create"
                   className="flex items-center gap-2 p-2 w-full text-gray-700 hover:text-green-600 font-medium transition duration-200"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <PencilSquareIcon className="w-5 h-5" />
-                  Write
+                  Create
                 </Link>
               ) : (
                 ""
@@ -201,12 +199,11 @@ const Navbar = () => {
             </div>
 
             <div
-              className={`lg:hidden ${
-                isMenuOpen ? "block" : "hidden"
-              } absolute w-full bg-white/95 backdrop-blur-lg shadow-lg`}
+              className={`lg:hidden ${isMenuOpen ? "block" : "hidden"
+                } absolute w-full bg-white/95 backdrop-blur-lg shadow-lg`}
             >
               <div className="px-4 pt-3 pb-4 space-y-3">
-                {token ? (
+                {user ? (
                   <>
                     <div className="flex items-center gap-3">
                       <UserCircleIcon className="w-8 h-8 text-gray-500 cursor-pointer hover:text-gray-700 transition" />
@@ -227,7 +224,7 @@ const Navbar = () => {
                         onClick={() => setIsMenuOpen(false)}
                       >
                         <PencilSquareIcon className="w-5 h-5" />
-                        Write
+                        Create
                       </Link>
 
                       {user?.role === "admin" && (
@@ -240,7 +237,7 @@ const Navbar = () => {
                         </Link>
                       )}
 
-                       {user?.role === "author" && (
+                      {user?.role === "author" && (
                         <Link
                           to="/author/dashboard"
                           className="block px-2 py-1 text-gray-700 hover:bg-gray-100 rounded-md"
@@ -250,7 +247,7 @@ const Navbar = () => {
                         </Link>
                       )}
 
-                       {user?.role === "reader" && (
+                      {user?.role === "reader" && (
                         <Link
                           to="/reader/dashboard"
                           className="block px-2 py-1 text-gray-700 hover:bg-gray-100 rounded-md"

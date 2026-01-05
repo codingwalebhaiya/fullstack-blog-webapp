@@ -5,7 +5,7 @@ const Register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    if (!username || !email || !password ) {
+    if (!username || !email || !password) {
       return res.status(401).json({
         message: "All fields are required",
       });
@@ -66,11 +66,15 @@ const Login = async (req, res) => {
 
     // generate token
     const payload = { id: user._id, email: user.email, role: user.role };
-    const token = await generateToken(payload);
+    const token = generateToken(payload);
 
-    return res.status(200).json({
+    return res.cookie("token", token, {
+      httpOnly: true, // 🔐 JS can't access
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict", // CSRF protection
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    }).status(200).json({
       message: "User logged in successfully",
-      token,
       user: {
         id: user._id,
         email: user.email,
@@ -83,6 +87,17 @@ const Login = async (req, res) => {
   }
 };
 
+const Logout = (req, res) => {
+  res
+    .clearCookie("token", {
+      httpOnly: true,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
+    })
+    .status(200)
+    .json({ message: "Logged out successfully" });
+};
 
 
-export { Register, Login };
+
+export { Register, Login, Logout };

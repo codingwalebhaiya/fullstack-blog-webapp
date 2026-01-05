@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import PostForm from "../components/editor/PostForm";
@@ -30,15 +30,6 @@ const EditPost = () => {
         const result = await postService.getPostById(id);
 
         if (result.success) {
-          // Admin can edit any post, authors can only edit their own posts
-          // if (
-          //   result.data.post.userId._id !== user._id &&
-          //   user.role !== "admin"
-          // ) {
-          //   showToast("You are not authorized to edit this post");
-          //   navigate("/posts");
-          //   return;
-          // }
           setPost(result.data.post);
           navigate(`/edit/${result.data.post._id}`);
         } else {

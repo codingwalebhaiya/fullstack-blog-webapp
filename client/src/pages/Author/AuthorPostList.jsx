@@ -6,7 +6,6 @@ export default function AuthorPostList() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { token } = useAuth();
 
   const deletePost = async (postId) => {
     if (!window.confirm("Are you sure you want to delete this post?")) {
@@ -34,7 +33,6 @@ export default function AuthorPostList() {
   };
 
   useEffect(() => {
-    if (!token) return;
     setError(null);
     setLoading(true);
 
@@ -50,7 +48,7 @@ export default function AuthorPostList() {
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }, []);
 
   if (loading) return <div className="p-4">Loading posts...</div>;
   if (error) return <div className="p-4 text-red-500">{error}</div>;

@@ -6,70 +6,30 @@ import { toast } from "react-toastify";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null );
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  
 
-  // keep axios Authorization header in sync with token
+
+  // fetch current user on mount
   useEffect(() => {
-    if (token) {
-      localStorage.setItem("token", token);
-    }
-  }, [token]);
-
-  const logout = useCallback(() => {
-    setToken(null);
-    setUser(null);
-    setError(null);
-    toast.success("Logged out");
-    navigate("/login");
-  }, [navigate]);
-
-  // fetch current user when token is present
-  useEffect(() => {
-    if (!token) {
-      setUser(null);
-      return;
-    }
     const controller = new AbortController();
     const getUser = async () => {
-      setLoading(true);
-      setError(null);
       try {
         const res = await API.get("/api/v1/users/me", { signal: controller.signal });
         // adapt to your backend: if user is inside res.data.user or res.data
         const fetchedUser = res.data?.user ?? res.data;
         setUser(fetchedUser || null);
       } catch (err) {
-        // ignore aborted request
-        if (
-          err.name === "CanceledError" ||
-          err.name === "AbortError" ||
-          err.message === "canceled"
-        ) {
-          return;
-        }
-
-        const status = err.response?.status;
-        // only logout on auth errors
-        if (status === 401 || status === 403) {
-          toast.error("Session expired. Please log in again.");
-          logout();
-        } else {
-          // non-auth errors: show message but keep user/token (optional)
-          console.error("getUser error:", err.response?.data ?? err);
-          toast.error(err.response?.data?.error || "Failed to fetch user");
-        }
+        setUser(null); // clear user on error
       } finally {
         setLoading(false);
       }
     };
     getUser();
     return () => controller.abort();
-  }, [token, logout]);
+  }, []);
 
   // register
   const register = async (formData) => {
@@ -97,9 +57,6 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
       setError(null);
       const res = await API.post("/api/v1/auth/login", formData);
-      const token = res.data.token;
-      localStorage.setItem("token", token);
-      setToken(token);
       setUser(res.data.user);
 
       if (res.statusText == "OK" || res.status == "200") {
@@ -110,20 +67,31 @@ export const AuthProvider = ({ children }) => {
       return { success: true };
     } catch (err) {
       toast.error(err.response?.data?.error || "Login failed");
-      return { success: false, error: err.response?.data?.error };
+      return { success: false };
     } finally {
       setLoading(false);
     }
   };
 
-  
+// logout 
+  const logout = async () => {
+    try {
+      await API.post("/api/v1/auth/logout")    
+    } catch (error) {
+      toast.error("Logout failed");
+    } finally {
+      setUser(null);
+      toast.success("Logged out");
+      navigate("/login");
+    }
+   
+  }
 
   // clear errors
   const clearErrors = () => setError(null);
 
   const value = {
     user,
-    token,
     error,
     loading,
     register,

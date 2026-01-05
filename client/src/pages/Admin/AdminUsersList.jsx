@@ -8,10 +8,7 @@ export default function AdminUsersList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const { token } = useAuth()
-
   useEffect(() => {
-    if (!token) return;
     setError(null);
     setLoading(true);
 
