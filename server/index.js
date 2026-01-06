@@ -17,7 +17,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", process.env.VITE_FRONTEND_URL],
+    origin: ["https://blog-client-gpiv.onrender.com", process.env.VITE_FRONTEND_URL],
     credentials: true,
   })
 );

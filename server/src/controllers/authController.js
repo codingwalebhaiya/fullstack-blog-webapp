@@ -70,8 +70,8 @@ const Login = async (req, res) => {
 
     return res.cookie("token", token, {
       httpOnly: true, // 🔐 JS can't access
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict", // CSRF protection
+      secure: true,
+      sameSite: "none", // CSRF protection
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     }).status(200).json({
       message: "User logged in successfully",
@@ -91,8 +91,8 @@ const Logout = (req, res) => {
   res
     .clearCookie("token", {
       httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+      secure: true,
     })
     .status(200)
     .json({ message: "Logged out successfully" });
