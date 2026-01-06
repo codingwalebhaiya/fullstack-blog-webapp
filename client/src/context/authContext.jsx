@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../utils/api";
 import { toast } from "react-toastify";
@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
         const fetchedUser = res.data?.user ?? res.data;
         setUser(fetchedUser || null);
       } catch (err) {
+        setError(err.response?.data?.error || "Failed to fetch user");
         setUser(null); // clear user on error
       } finally {
         setLoading(false);
