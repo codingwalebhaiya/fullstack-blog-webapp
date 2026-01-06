@@ -73,33 +73,34 @@ The platform supports **role-based authentication**, **secure post management**,
 
 ### Backend (`.env`)
 
-NODE_ENV=development
-PORT=5000
-MONGODB_URI=your_mongodb_connection_string_here
-JWT_SECRET_KEY=your_jwt_secret_key_here
-CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-CLOUDINARY_API_KEY=your_cloudinary_api_key
-CLOUDINARY_API_SECRET=your_cloudinary_api_secret
-VITE_FRONTEND_URL=http://localhost:5173
+- NODE_ENV=development
+- PORT=5000
+- MONGODB_URI=your_mongodb_connection_string_here
+- JWT_SECRET_KEY=your_jwt_secret_key_here
+- CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+- CLOUDINARY_API_KEY=your_cloudinary_api_key
+- CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+- VITE_FRONTEND_URL=http://localhost:5173
 
+ ---
 
 🛠️ Installation & Setup
 1️⃣ Clone the Repository
 
-git clone https://github.com/codingwalebhaiya/fullstack-blog-webapp.git
-cd fullstack-blog-webapp
+- git clone https://github.com/codingwalebhaiya/fullstack-blog-webapp.git
+- cd fullstack-blog-webapp
 
 
 2️⃣ Backend Setup
-cd server
-npm install
-npm run dev
+- cd server
+- npm install
+- npm run dev
 
 
 3️⃣ Frontend Setup
-cd client
-npm install
-npm run dev
+- cd client
+- npm install
+- npm run dev
 
 
 🔐 User Roles
@@ -113,20 +114,17 @@ npm run dev
 
 🔒 Security Measures
 
-JWT stored securely (HTTP-only cookies supported)
-
-CORS configuration for production
-
-Input validation on frontend & backend
-
-Protected API routes
+- JWT stored securely (HTTP-only cookies supported)
+- CORS configuration for production
+- Input validation on frontend & backend
+- Protected API routes
 
 
 🧪 API Endpoints (Sample)
-POST   /api/v1/auth/login
-GET    /api/v1/users/me
-POST   /api/v1/posts
-GET    /api/v1/posts/author/me
+- POST   /api/v1/auth/login
+- GET    /api/v1/users/me
+- POST   /api/v1/posts
+- GET    /api/v1/posts/author/me
 
 
 📸 Screenshots
@@ -134,27 +132,21 @@ GET    /api/v1/posts/author/me
 
 📈 Future Improvements
 
-Comment system
-
-Likes & bookmarks
-
-Search & filter posts
-
-Pagination & infinite scroll
-
-Image optimization
-
-Email notifications
+- Comment system
+- Likes & bookmarks
+- Search & filter posts
+- Pagination & infinite scroll
+- Image optimization
+- Email notifications
 
 
 👨‍💻 Author
 
-Satyam Pandey
-Fullstack Developer | MERN | GenAI
+- Satyam Pandey
+- Fullstack Developer | MERN | GenAI
 
-LinkedIn: https://www.linkedin.com/in/satyam-pandey-85629b210
-
-GitHub: https://github.com/codingwalebhaiya
+- LinkedIn: https://www.linkedin.com/in/satyam-pandey-85629b210
+- GitHub: https://github.com/codingwalebhaiya
 
 
 ⭐ Support
