@@ -41,8 +41,7 @@ const ImageUpload = ({ onImageUpload, onImageRemove, currentImage, error, disabl
         alert(result.message || 'Failed to upload image');
       }
     } catch (error) {
-      console.error('Image upload error:', error);
-      alert('Failed to upload image. Please try again.');
+      alert('Failed to upload image. Please try again.', error);
     } finally {
       setUploading(false);
       setUploadProgress(0);

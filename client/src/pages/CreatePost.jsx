@@ -21,7 +21,6 @@ const CreatePost = () => {
 
     try {
       const result = await postService.createPost(postData);
-      console.log(result)
       if (result.success) {
         showToast("Post created successfully!", "success");
 
@@ -39,7 +38,6 @@ const CreatePost = () => {
         navigate("/posts");
       }
     } catch (error) {
-      console.error("Error creating post:", error);
       showToast("An unexpected error occurred");
     } finally {
       setLoading(false);

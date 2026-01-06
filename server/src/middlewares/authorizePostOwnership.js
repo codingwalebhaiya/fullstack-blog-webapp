@@ -22,7 +22,6 @@ const authorizePostOwnership = async (req, res, next) => {
 
     return res.status(403).json({ message: "Forbidden: You cannot perform this action" });
   } catch (err) {
-    console.error(err);
     return res.status(500).json({ message: "Server error", error: err.message });
   }
 };

@@ -16,7 +16,6 @@ const PostList = () => {
         const res = await API.get("/api/v1/posts");
         setPosts(res.data.posts || []);
       } catch (err) {
-        console.error("Error fetching posts:", err);
         setError(err.response?.data?.error || "Failed to load posts");
       } finally {
         setLoading(false);

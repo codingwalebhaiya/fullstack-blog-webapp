@@ -25,7 +25,6 @@ const uploadImages = async (req, res) => {
       // You can return the full result object, but sending only what's needed is cleaner
     });
   } catch (uploadError) {
-    console.error("Cloudinary Upload Error:", uploadError);
     return res
       .status(500)
       .json({ message: "Failed to upload image to Cloudinary." });

@@ -31,7 +31,6 @@ const PostDetail = () => {
         setSignalPost(res.data.post);
         setError(null);
       } catch (err) {
-        console.error("Fetch Post Error:", err);
         setError(err.response?.data?.error || "Failed to load post");
         setSignalPost({
           title: "",

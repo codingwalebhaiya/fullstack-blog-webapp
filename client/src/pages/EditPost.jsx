@@ -37,7 +37,6 @@ const EditPost = () => {
           
         }
       } catch (error) {
-        console.error("Error fetching post:", error);
         showToast("Failed to load post");
         navigate("/posts");
       } finally {
@@ -69,7 +68,6 @@ const EditPost = () => {
         navigate("/posts");
       }
     } catch (error) {
-      console.error("Error updating post:", error);
       showToast("An unexpected error occurred");
     } finally {
       setSubmitting(false);
